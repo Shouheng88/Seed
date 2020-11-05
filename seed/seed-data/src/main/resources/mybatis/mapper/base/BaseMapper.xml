@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Base">
+	
+	<sql id="Order_By_Clause">
+		<bind name="pageOffset" value="page * pageSize"/>
+		<if test="sorts != null and sorts.size > 0">
+			ORDER BY
+			<foreach item="item" collection="sorts" separator = ",">
+				<if test="item.sortKey != null and item.sortKey != ''">t.${item.sortKey}</if>
+				<if test="item.sortDir != null and item.sortDir != ''">${item.sortDir}</if>
+			</foreach>
+		</if>
+		<if test="page != null and pageSize != null">
+			limit #{pageOffset}, #{pageSize}
+		</if>
+	</sql>
+
+	<select id="selectSysDate" resultType="java.util.Date" useCache="false">
+		SELECT sysdate FROM DUAL
+	</select>
+	
+	<parameterMap id="pm" type="Map">
+		<parameter property="seq_name" jdbcType="VARCHAR" mode="IN"/>   
+		<parameter property="col_name" jdbcType="VARCHAR" mode="IN"/>   
+		<parameter property="seq_val" jdbcType="NUMERIC" mode="OUT"/>   
+	</parameterMap>   
+	
+	<select statementType="CALLABLE" id="getSeqNextValueByName" parameterType="hashmap" resultType="hashmap">
+	<![CDATA[
+	{ call  express_utils_pkg.pr_get_seq_by_name(#{seq_name,mode=IN,jdbcType=VARCHAR},#{col_name,mode=IN,jdbcType=VARCHAR},#{seq_val,mode=OUT,jdbcType=DECIMAL})   }
+	]]>
+	</select> 
+
+</mapper>

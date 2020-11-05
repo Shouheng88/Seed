@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sqlmap.common.model">	
+
+	<sql id="find">SELECT * FROM ${table} t WHERE t.id=#{id}</sql>
+
+	<sql id="delete">DELETE FROM ${table} WHERE id = #{id}</sql>
+
+	<sql id="insert">INSERT INTO ${table} (${insertField}) VALUES(${insertValues})</sql>
+	
+	<sql id="update">UPDATE ${table} SET ${updateSql}, lockVersion=lockVersion+1 WHERE id=#{id} AND lockVersion = #{lockVersion}</sql>
+	
+	<sql id="searchListByPara">SELECT * FROM ${table} WHERE ${Clause}</sql>
+
+	<sql id="deleteByIds">
+		DELETE FROM ${table} t WHERE t.id IN
+		<foreach collection="ids" index="dex" item="item" open="(" close=")" separator=",">
+  			#{item}
+  		</foreach>
+	</sql>
+
+	<sql id="selectListByIds">
+		SELECT * FROM ${table} t WHERE t.id IN
+		<foreach collection="ids" index="dex" item="item" open="(" close=")" separator=",">
+  			#{item}
+  		</foreach>
+	</sql>
+	
+</mapper>

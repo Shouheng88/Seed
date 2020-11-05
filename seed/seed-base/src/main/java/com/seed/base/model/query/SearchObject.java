@@ -15,9 +15,6 @@ public class SearchObject implements Pageable, Sortable, Serializable {
 
     private static final long serialVersionUID = 7739709965769082011L;
 
-    /** Current offset used for limit in SQL. */
-    private Integer offset;
-
     /** Current page number. */
     private Integer page;
 
@@ -62,19 +59,10 @@ public class SearchObject implements Pageable, Sortable, Serializable {
         this.sorts.addAll(sorts);
     }
 
-    public Integer getOffset() {
-        return offset;
-    }
-
-    public void setOffset(Integer offset) {
-        this.offset = offset;
-    }
-
     @Override
     public String toString() {
         return "SearchObject{" +
-                "offset=" + offset +
-                ", page=" + page +
+                "page=" + page +
                 ", pageSize=" + pageSize +
                 ", sorts=" + sorts +
                 '}';

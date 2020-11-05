@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--Configure MyBatis, see http://www.mybatis.org/mybatis-3/zh/configuration.html-->
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="lazyLoadingEnabled" value="false"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <setting name="multipleResultSetsEnabled" value="false"/>
+        <setting name="useColumnLabel" value="false"/>
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="autoMappingBehavior" value="PARTIAL"/>
+        <setting name="defaultExecutorType" value="REUSE"/>
+        <setting name="defaultStatementTimeout" value="25000"/>
+        <!--The field column map strategy-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+</configuration>

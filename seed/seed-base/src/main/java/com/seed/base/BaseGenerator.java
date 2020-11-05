@@ -43,7 +43,7 @@ public abstract class BaseGenerator {
                 " */\n", comment, new SimpleDateFormat("yyy/MM/dd hh:mm").format(new Date()));
     }
 
-    protected static void printFile(String fileName, String content, String  outputDirectory, boolean cover) {
+    protected static void printFile(String fileName, String content, String outputDirectory, boolean cover) {
         System.out.println(content);
         File dir = new File(outputDirectory);
         if (!dir.exists()) {

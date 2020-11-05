@@ -1,6 +1,8 @@
 package com.seed.base;
 
+import com.seed.base.model.business.BusinessResponse;
 import com.seed.base.model.enums.DeviceType;
+import com.seed.base.model.enums.ResultCode;
 import com.seed.base.utils.JsonMapper;
 import lombok.Data;
 import lombok.ToString;
@@ -45,6 +47,8 @@ public class JsonMapperTest {
         System.out.println(outerClass.innerClass);
         List<TestOuterClass.TestInnerClass> list = JsonMapper.nonDefaultMapper().fromJson(outJson2, List.class, TestOuterClass.class);
         System.out.println(list);
+        String json = JsonMapper.nonNullAndDefaultDateFormatMapper().toJson(BusinessResponse.fail(ResultCode.BAD_REQUEST));
+        System.out.println(json);
     }
 
     @Data
