@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.5.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.seed</groupId>
+    <artifactId>seed</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>demo</name>
+    <url>https://github.com/Shouheng88/Booster</url>
+    <description>Demo project for Spring Boot</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <javax.persistence-api>1.0</javax.persistence-api>
+        <hutool.all.version>4.6.1</hutool.all.version>
+        <mybatis.starter>2.0.0</mybatis.starter>
+        <druid-version>1.1.18</druid-version>
+        <dozer-core>6.4.1</dozer-core>
+        <swagger.version>2.7.0</swagger.version>
+        <joda-time.version>2.9.9</joda-time.version>
+        <okhttp.version>3.14.1</okhttp.version>
+        <retrofit.version>2.3.0</retrofit.version>
+        <logstash.logback.version>6.1</logstash.logback.version>
+		</properties>
+    <modules>
+        <module>seed-base</module>
+        <module>seed-data</module>
+        <module>seed-portal</module>
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>persistence-api</artifactId>
+                <version>${javax.persistence-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.starter}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid-version}</version>
+            </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+	            <configuration>
+                    <skip>true</skip><!--ignore unit test when packaging-->
+	            </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
