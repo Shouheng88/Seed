@@ -1,0 +1,78 @@
+server:
+  # Config the port to listen request
+  port: 8080
+spring:
+  application:
+    name: Seed-Server
+  # Data source configuration the default configuration is using MySQL and
+  # Druid as connection pool. See https://github.com/alibaba/druid/tree/master/druid-spring-boot-starter/
+  # for Druid configuration.
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seed?serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: developer
+    password: xxxxxxxxx
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 1
+      min-idle: 1
+      max-wait: 10000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      test-while-idle: true
+      test-on-borrow: true
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      default-auto-commit: true
+      validation-query: select 1
+  # Change the host, username and password as your Email if you need to send email.
+  mail:
+    host: smtp.163.com
+    username: xxxxxxxxx@163.com
+    password: xxxxxxxxxx
+  # Redis in server, change into your own configuration.
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password: 12345
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 9
+        max-wait: -1ms
+        min-idle: 0
+# Mybatis configuration, the files was saved in data module.
+# See https://mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/ for details.
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml, classpath:mybatis/mapper/base/*.xml
+  type-aliases-package: com.seed.data.model
+  type-handlers-package: com.seed.data.dao.handler
+# Log configuration, as default, logback will be used.
+logging:
+  config: classpath:logback.xml
+# Spring Boot Actuator, used to monitor and manage your application when you push it to production.
+# See https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html for details.
+management:
+  endpoint:
+    env:
+      enabled: true
+    health:
+      show-details: always
+  health:
+    db:
+      enabled: true
+    rabbit:
+      enabled: true
+    redis:
+      enabled: true
+# Add custom values below
+com:
+  seed:
+    # The administrator username and password, used to login import App info page,
+    # Change them for production.
+    admin:
+      username: seed_admin
+      password: xxxxx

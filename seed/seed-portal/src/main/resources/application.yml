@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    # Config your active environment
+    active: dev
+  jackson:
+    # Config your timezone and jackson
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: true
+    default-property-inclusion: non_null

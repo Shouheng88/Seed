@@ -1,4 +1,4 @@
-package com.seed.data.utils;
+package com.seed.base.utils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

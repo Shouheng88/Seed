@@ -4,6 +4,7 @@ import com.seed.base.annotation.HideLog;
 import com.seed.base.exception.DAOException;
 import com.seed.base.exception.ParameterException;
 import com.seed.base.model.PackVo;
+import com.seed.base.model.business.BusinessRequest;
 import com.seed.base.model.enums.ResultCode;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -11,9 +12,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="mailto:shouheng2015@gmail.com">Shouheng.W</a>
@@ -59,6 +63,46 @@ public final class AopUtils {
     }
 
     /**
+     * Same as {@link #methodAround(ProceedingJoinPoint)} except that we included
+     * some parameters just in order to output more useful message to help us
+     * find out production problems.
+     *
+     * @param point      proceeding join point
+     * @param userId     user id
+     * @param requestId  request id
+     * @return           result of point
+     * @throws Throwable exception
+     */
+    public static Object methodAround(ProceedingJoinPoint point, Long userId, String requestId) throws Throwable {
+        long timeBegin = System.currentTimeMillis();
+
+        Class targetClass = point.getTarget().getClass();
+        MethodSignature signature = (MethodSignature) point.getSignature();
+
+        List<Object> args = argumentFilter(point.getArgs(), signature.getMethod().getParameterAnnotations());
+
+        Logger logger = LoggerFactory.getLogger(targetClass);
+        logger.info("[#{}][Start][{}][{}][{}]", signature.getName(), userId, requestId, Arrays.toString(args.toArray()));
+
+        Object result = null;
+        try {
+            result = point.proceed();
+        } catch (Throwable throwable) {
+            logger.error("[#{}][Error][{}ms][{}][{}]Due:", signature.getName(), timeCost(timeBegin), userId, requestId, throwable);
+            if (throwable instanceof RuntimeException || throwable instanceof Error) {
+                // exception occurred, throw upwards
+                throw throwable;
+            } else {
+                return handleException(throwable);
+            }
+        } finally {
+            logger.info("[#{}][End][{}ms][{}][{}][{}]", signature.getName(), timeCost(timeBegin), userId, requestId, result);
+        }
+
+        return result;
+    }
+
+    /**
      * Filter for arguments by annotation. Mainly used to hide log of given argument decorated by {@link HideLog}.
      *
      * @param args        arguments
@@ -84,12 +128,34 @@ public final class AopUtils {
     }
 
     /**
+     * Filter for filed by annotation. Mainly used to hide log of given filed decorated by {@link HideLog}.
+     *
+     * @param o the target
+     * @return  the fields
+     */
+    public static List<String> fieldsFilter(Object o) {
+        if (o == null) return null;
+        if (o instanceof BusinessRequest) {
+            o = ((BusinessRequest) o).getApiParams();
+        }
+        List<String> list = new LinkedList<>();
+        Field[] fields = o.getClass().getDeclaredFields();
+        if (fields != null) {
+            list.addAll(Arrays.stream(fields)
+                    .filter(field -> field.isAnnotationPresent(HideLog.class))
+                    .map(Field::getName)
+                    .collect(Collectors.toList()));
+        }
+        return list;
+    }
+
+    /**
      * Handle exception, wrap exception.
      *
      * @param ex the exception
      * @return   the exception pack.
      */
-    private static PackVo handleException(Throwable ex) {
+    public static PackVo handleException(Throwable ex) {
         if (ex instanceof DAOException) {
             return PackVo.fail(ResultCode.ERROR_DAO_EXCEPTION);
         } else if (ex instanceof ParameterException) {

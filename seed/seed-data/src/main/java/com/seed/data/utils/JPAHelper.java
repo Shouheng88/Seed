@@ -3,17 +3,14 @@ package com.seed.data.utils;
 import cn.hutool.core.util.StrUtil;
 import com.seed.base.annotation.ColumnInfo;
 import com.seed.base.annotation.TableInfo;
-import lombok.AllArgsConstructor;
+import com.seed.base.utils.ReflectionUtil;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.lang.reflect.Field;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
