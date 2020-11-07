@@ -163,14 +163,12 @@ public class RestfulApiAspect {
             boolean passed = params.params().allMatch(param -> checkParam(method, param, request, missedParams, logger));
             if (!passed) {
                 String result = StringUtils.connect(missedParams, ",", param -> param.fullName);
-                return BusinessResponse.fail(String.valueOf(ResultCode.ERROR_REQUEST_PARAMETER.code),
-                        ResultCode.ERROR_REQUEST_PARAMETER.message + ": " + result);
+                return BusinessResponse.fail(String.valueOf(ResultCode.ERROR_REQUEST_PARAMETER.code), "Missed Parameters : " + result);
             }
             // Check parameters of BusinessRequest#apiParams
             Object apiParams = request.getApiParams();
             if (params.hasApiParams() && apiParams == null) {
-                return BusinessResponse.fail(String.valueOf(ResultCode.ERROR_REQUEST_PARAMETER.code),
-                        ResultCode.ERROR_REQUEST_PARAMETER.message + ": apiParams");
+                return BusinessResponse.fail(String.valueOf(ResultCode.ERROR_REQUEST_PARAMETER.code), "Missed Parameters : apiParams");
             }
             if (apiParams != null) {
                 Map<String, Field> fieldMap = getAllFields(apiParams);
@@ -181,8 +179,7 @@ public class RestfulApiAspect {
             setupPaging(method, args);
             if (passed) return null;
             String result = StringUtils.connect(missedParams, ",", requiredParam1 -> requiredParam1.fullName);
-            return BusinessResponse.fail(String.valueOf(ResultCode.ERROR_REQUEST_PARAMETER.code),
-                    ResultCode.ERROR_REQUEST_PARAMETER.message + ": " + result);
+            return BusinessResponse.fail(String.valueOf(ResultCode.ERROR_REQUEST_PARAMETER.code), "Missed Parameters : " + result);
         } else if (!params.isEmpty()) {
             // Parameter required, but the argument of method was not BusinessRequest.
             logger.error("[#{}][Error][The api might have define error]", method.getName());

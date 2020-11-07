@@ -20,7 +20,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 @Configuration
 public class TaskConfig {
 
-    @Async
+    @Async(value = "applicationTaskExecutor")
     @Scheduled(cron = "0 */3 * * * ?")
     public void timelyTask() {
         log.debug("Timely task invoked!");

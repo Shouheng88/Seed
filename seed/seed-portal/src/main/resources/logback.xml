@@ -8,7 +8,7 @@
     <!-- Max log file size -->
     <property name="LOG_TOTAL_SIZE_GAP" value="10GB" />
     <!-- Log file saved path  -->
-    <property name="LOG_APP_HOME" value="./portal" />
+    <property name="LOG_APP_HOME" value="./log" />
     <!-- Colorful configuration for console output -->
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
     <conversionRule conversionWord="wex"

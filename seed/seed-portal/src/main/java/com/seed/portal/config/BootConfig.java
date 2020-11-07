@@ -10,11 +10,14 @@ import com.seed.base.utils.DozerBeanUtil;
 import com.seed.base.utils.SeedSecurity;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.unit.DataSize;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import javax.servlet.MultipartConfigElement;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +72,14 @@ public class BootConfig {
         // Allow none base statement
         config.setNoneBaseStatementAllow(true);
         return config;
+    }
+
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        factory.setMaxFileSize(DataSize.ofMegabytes(2));
+        factory.setMaxRequestSize(DataSize.ofMegabytes(2));
+        return factory.createMultipartConfig();
     }
 
 }

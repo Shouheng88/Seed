@@ -51,6 +51,6 @@ public class ExceptionConfig {
     @ExceptionHandler(value = RuntimeException.class)
     public BusinessResponse servletRuntimeExceptionHandler(HttpServletRequest req, Exception e) {
         log.error("Servlet runtime exception : {} {}", req.getRequestURL(), req.getMethod(), e);
-        return BusinessResponse.fail(String.valueOf(ResultCode.BAD_REQUEST.code), ResultCode.BAD_REQUEST.message);
+        return BusinessResponse.fail(String.valueOf(ResultCode.BAD_REQUEST.code), e.getMessage());
     }
 }

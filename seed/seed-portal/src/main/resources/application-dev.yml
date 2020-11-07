@@ -82,3 +82,7 @@ baidu:
   api:
     client-id: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     client-secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# Mail
+mail:
+  from:
+    address: test<spring_references@163.com>
