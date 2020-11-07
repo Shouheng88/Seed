@@ -4,6 +4,8 @@ import cn.hutool.core.util.StrUtil;
 import com.seed.base.BaseGenerator;
 import com.seed.base.annotation.ApiInfo;
 import com.seed.base.annotation.Paging;
+import com.seed.portal.controller.rest.AiController;
+import com.seed.portal.controller.rest.AppConfigController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,6 +25,16 @@ import java.util.stream.Stream;
  * @version 1.0
  * @date 2020/11/6 11:18
  */
+@ApiGenerator.GeneratorConfiguration(
+        controllers = {
+                AiController.class,
+                AppConfigController.class
+        },
+        outputDirectory = "APIFiles",
+        repoClassPackage = "package com.seed.data.repo",
+        apiClassPackage = "package com.seed.data.api",
+        author = "<a href=\"mailto:shouheng2015@gmail.com\">Shouheng.W</a>"
+)
 public final class ApiGenerator extends BaseGenerator {
     private static String outputDirectory;
     private static String apiClassesPackage;
@@ -49,7 +61,7 @@ public final class ApiGenerator extends BaseGenerator {
             // generate repos
             String[] bodies = repoMethods(it);
             String repoFileName = getRepoFileName(it);
-            String repoFullContent = header(repoClassesPackage, author, api.tags()[0]) + String.format(repoBody(it), bodies[0], bodies[1]);
+            String repoFullContent = header(repoClassesPackage, author, api.tags()[0]) + String.format(repoBody(it), bodies[0]/*, bodies[1]*/);
             printFile(repoFileName, repoFullContent, outputDirectory);
         });
     }
@@ -86,8 +98,8 @@ public final class ApiGenerator extends BaseGenerator {
                 "    companion object {\n" +
                 "        val instance: " + repoName + " by lazy { " + repoName +  "() }\n" +
                 "    }\n" +
-                "}\n" +
-                "%s\n";
+                "}\n"/* +
+                "%s\n"*/;
     }
 
     private static String serviceApi(Class<?> clazz) {
@@ -122,7 +134,7 @@ public final class ApiGenerator extends BaseGenerator {
                             String filedValue = apiImplicitParam.value();
                             boolean fieldRequired = apiImplicitParam.required();
                             params.add((params.size() + 1) + ". "
-                                    + filedName + " "
+                                    + filedName + " : "
                                     + filedValue
                                     + (fieldRequired ? " (Required): " : ""));
                         });
@@ -132,7 +144,7 @@ public final class ApiGenerator extends BaseGenerator {
                             "     * Api: " + apiName + "\n" +
                             "     * " + "\n" +
                             "     * Desc: " + "\n" +
-                            (needAuth ? "     * - Auth\n" : "") +
+                            (needAuth ? "     * - Auth required\n" : "") +
                             "     * " + (needPage ? "- Pageable, max page size " + maxPageSize + " ；\n     * \n" : "\n") +
                             "     * Parameter required: \n";
                     for (String param : params) {
@@ -200,7 +212,7 @@ public final class ApiGenerator extends BaseGenerator {
                     voName = voName.replace("BusinessResponse<", ""); // Remove prefix
                     voName = voName.substring(0, voName.length()-1); // Remove >
                     voName = voName.equals("Any") ? "" : voName;
-                    methodBuilder.append("listener: " + callbackName + "?");
+                    methodBuilder.append("listener: OnResultListener?");
                     methodBuilder.append(") {\n");
                     methodBuilder.append(
                             "        GlobalScope.launch(Dispatchers.Main) {\n" +
@@ -211,9 +223,9 @@ public final class ApiGenerator extends BaseGenerator {
                                     "                    })))\n" +
                                     "            }\n" +
                                     "            if (res.success) {\n" +
-                                    "                listener?." + callbackMethodNameSuc + "("  + (StrUtil.isEmpty(voName) ? "" : "res.data!!")  +  ")\n" +
+                                    "                listener?.onSuccess("  + (StrUtil.isEmpty(voName) ? "" : "res.data!!")  +  ")\n" +
                                     "            } else {\n" +
-                                    "                listener?." + callbackMethodNameFailed + "(res.code!!, res.message!!)\n" +
+                                    "                listener?.onFailed(res.code!!, res.message!!)\n" +
                                     "            }\n" +
                                     "        }\n" +
                                     "    }\n");

@@ -19,7 +19,10 @@ public enum ResultCode {
     ERROR_REQUEST_PARAMETER(        20002, "parameter check failed"),
 
     THIRD_PART_REQUEST_TIMEOUT(     20040, "Third part API request timeout"),
-    THIRD_PART_REQUEST_ERROR(       20041, "Third part server error");
+    THIRD_PART_REQUEST_ERROR(       20041, "Third part server error"),
+
+    REQUEST_LIMIT_TOO_MUCH_REQUEST( 20020, "too much request"),
+    REQUEST_LIMIT_LIMIT_COUNT(      20021, "too much request");
 
     public final long code;
 

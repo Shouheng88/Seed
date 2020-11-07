@@ -76,6 +76,8 @@ com:
     admin:
       username: seed_admin
       password: xxxxx
+    intercept:
+      enable: false
 baidu:
   api:
     client-id: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
