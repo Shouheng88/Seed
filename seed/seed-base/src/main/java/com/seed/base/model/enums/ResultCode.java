@@ -15,6 +15,8 @@ public enum ResultCode {
     FORBIDDEN(         403, "forbidden"),
     METHOD_NOT_ALLOWED(405, "method not allowed"),
 
+    FAILED_TO_SEND_EMAIL(           10003, "failed to send email"),
+
     ERROR_DAO_EXCEPTION(            20001, "failed to operate database"),
     ERROR_REQUEST_PARAMETER(        20002, "parameter check failed"),
 
