@@ -5,6 +5,8 @@ import com.seed.base.constant.RegexConstants;
 import java.util.regex.Pattern;
 
 /**
+ * Regex.
+ *
  * @author <a href="mailto:shouheng2015@gmail.com">Shouheng.W</a>
  * @version 1.0
  * @date 2020/11/5 20:13

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seed.data.dao.AppConfigDetailDAO">
+
+    <insert id="insert" parameterType="AppConfigDetail">
+        insert into gt_app_config_detail(
+        <!-- 0-->id,
+        <!-- 1-->app_config_id,
+        <!-- 2-->value_name,
+        <!-- 3-->config_value,
+        <!-- 4-->remark,
+        <!-- 5-->lock_version,
+        <!-- 6-->updated_time,
+        <!-- 7-->created_time
+        )
+        values(
+        <!-- 0-->#{id:BIGINT},
+        <!-- 1-->#{appConfigId:BIGINT},
+        <!-- 2-->#{valueName:VARCHAR},
+        <!-- 3-->#{configValue:VARCHAR},
+        <!-- 4-->#{remark:VARCHAR},
+        <!-- 5-->#{lockVersion:BIGINT},
+        <!-- 6-->#{updatedTime:BIGINT},
+        <!-- 7-->#{createdTime:BIGINT}
+        )
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="AppConfigDetail">
+        update gt_app_config_detail set
+            app_config_id=#{appConfigId:BIGINT},
+            value_name=#{valueName:VARCHAR},
+            config_value=#{configValue:VARCHAR},
+            remark=#{remark:VARCHAR},
+            updated_time=#{updatedTime:BIGINT},
+            created_time=#{createdTime:BIGINT},
+            LOCK_VERSION = LOCK_VERSION+1
+            where ID=#{id} and LOCK_VERSION=#{lockVersion} 
+    </update>
+
+    <update id="updatePOSelective" parameterType="AppConfigDetail">
+        update gt_app_config_detail
+        <set>
+            <if test="appConfigId != null ">
+                app_config_id=#{appConfigId:BIGINT},
+            </if>
+            <if test="valueName != null ">
+                value_name=#{valueName:VARCHAR},
+            </if>
+            <if test="configValue != null ">
+                config_value=#{configValue:VARCHAR},
+            </if>
+            <if test="remark != null ">
+                remark=#{remark:VARCHAR},
+            </if>
+            <if test="updatedTime != null ">
+                updated_time=#{updatedTime:BIGINT},
+            </if>
+            <if test="createdTime != null ">
+                created_time=#{createdTime:BIGINT},
+            </if>
+            LOCK_VERSION = LOCK_VERSION+1
+        </set>
+            where ID=#{id} and LOCK_VERSION=#{lockVersion} 
+    </update>
+
+    <select id="selectByPrimaryKey" parameterType="long" resultType="AppConfigDetail">
+        select * from gt_app_config_detail where id=#{id}
+    </select>
+
+    <select id="selectVoByPrimaryKey" parameterType="long" resultType="AppConfigDetailVo">
+        select * from gt_app_config_detail where id=#{id}
+    </select>
+
+    <select id="searchBySo" resultType="AppConfigDetail">
+        select t.* from gt_app_config_detail t
+        <include refid="SO_Where_Clause" />
+    </select>
+
+    <select id="searchVosBySo" resultType="AppConfigDetailVo">
+        select t.* from gt_app_config_detail t
+        <include refid="SO_Where_Clause" />
+    </select>
+
+    <select id="searchCountBySo" resultType="long">
+        select count(t.id) from gt_app_config_detail t
+        <include refid="SO_Where_Clause" />
+    </select>
+
+    <sql id="SO_Where_Clause">
+        <where>
+            1=1
+            <if test="appConfigId != null ">
+                and t.app_config_id=#{appConfigId}
+            </if>
+        </where>
+        <include refid="Base.Order_By_Clause" />
+    </sql>
+    <delete id="deleteByPrimaryKey" parameterType="long">
+        delete from gt_app_config_detail where id=#{id}
+    </delete>
+</mapper>

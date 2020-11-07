@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seed.data.dao.AppConfigDAO">
+
+    <insert id="insert" parameterType="AppConfig">
+        insert into gt_app_config(
+        <!-- 0-->id,
+        <!-- 1-->app_id,
+        <!-- 2-->platform,
+        <!-- 3-->target_version,
+        <!-- 4-->target_channel,
+        <!-- 5-->latest_version,
+        <!-- 6-->force_upgrade,
+        <!-- 7-->remark,
+        <!-- 8-->lock_version,
+        <!-- 9-->updated_time,
+        <!-- 10-->created_time
+        )
+        values(
+        <!-- 0-->#{id:BIGINT},
+        <!-- 1-->#{appId:BIGINT},
+        <!-- 2-->#{platform:SMALLINT},
+        <!-- 3-->#{targetVersion:VARCHAR},
+        <!-- 4-->#{targetChannel:VARCHAR},
+        <!-- 5-->#{latestVersion:VARCHAR},
+        <!-- 6-->#{forceUpgrade:BIT},
+        <!-- 7-->#{remark:VARCHAR},
+        <!-- 8-->#{lockVersion:BIGINT},
+        <!-- 9-->#{updatedTime:BIGINT},
+        <!-- 10-->#{createdTime:BIGINT}
+        )
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="AppConfig">
+        update gt_app_config set
+            app_id=#{appId:BIGINT},
+            platform=#{platform:SMALLINT},
+            target_version=#{targetVersion:VARCHAR},
+            target_channel=#{targetChannel:VARCHAR},
+            latest_version=#{latestVersion:VARCHAR},
+            force_upgrade=#{forceUpgrade:BIT},
+            remark=#{remark:VARCHAR},
+            updated_time=#{updatedTime:BIGINT},
+            created_time=#{createdTime:BIGINT},
+            LOCK_VERSION = LOCK_VERSION+1
+            where ID=#{id} and LOCK_VERSION=#{lockVersion} 
+    </update>
+
+    <update id="updatePOSelective" parameterType="AppConfig">
+        update gt_app_config
+        <set>
+            <if test="appId != null ">
+                app_id=#{appId:BIGINT},
+            </if>
+            <if test="platform != null ">
+                platform=#{platform:SMALLINT},
+            </if>
+            <if test="targetVersion != null ">
+                target_version=#{targetVersion:VARCHAR},
+            </if>
+            <if test="targetChannel != null ">
+                target_channel=#{targetChannel:VARCHAR},
+            </if>
+            <if test="latestVersion != null ">
+                latest_version=#{latestVersion:VARCHAR},
+            </if>
+            <if test="forceUpgrade != null ">
+                force_upgrade=#{forceUpgrade:BIT},
+            </if>
+            <if test="remark != null ">
+                remark=#{remark:VARCHAR},
+            </if>
+            <if test="updatedTime != null ">
+                updated_time=#{updatedTime:BIGINT},
+            </if>
+            <if test="createdTime != null ">
+                created_time=#{createdTime:BIGINT},
+            </if>
+            LOCK_VERSION = LOCK_VERSION+1
+        </set>
+            where ID=#{id} and LOCK_VERSION=#{lockVersion} 
+    </update>
+
+    <select id="selectByPrimaryKey" parameterType="long" resultType="AppConfig">
+        select * from gt_app_config where id=#{id}
+    </select>
+
+    <select id="selectVoByPrimaryKey" parameterType="long" resultType="AppConfigVo">
+        select * from gt_app_config where id=#{id}
+    </select>
+
+    <select id="searchBySo" resultType="AppConfig">
+        select t.* from gt_app_config t
+        <include refid="SO_Where_Clause" />
+    </select>
+
+    <select id="searchVosBySo" resultType="AppConfigVo">
+        select t.* from gt_app_config t
+        <include refid="SO_Where_Clause" />
+    </select>
+
+    <select id="searchCountBySo" resultType="long">
+        select count(t.id) from gt_app_config t
+        <include refid="SO_Where_Clause" />
+    </select>
+
+    <sql id="SO_Where_Clause">
+        <where>
+            1=1
+            <if test="platform != null ">
+                and t.platform=#{platform}
+            </if>
+            <if test="appId != null">
+                and t.app_id=#{appId}
+            </if>
+        </where>
+        <include refid="Base.Order_By_Clause" />
+    </sql>
+    <delete id="deleteByPrimaryKey" parameterType="long">
+        delete from gt_app_config where id=#{id}
+    </delete>
+</mapper>

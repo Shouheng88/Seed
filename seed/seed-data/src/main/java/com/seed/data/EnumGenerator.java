@@ -1,6 +1,7 @@
 package com.seed.data;
 
 import com.seed.base.BaseGenerator;
+import com.seed.base.model.enums.DeviceType;
 
 import java.lang.annotation.*;
 import java.lang.reflect.InvocationTargetException;
@@ -16,10 +17,12 @@ import java.util.stream.Stream;
  * @date 2020/11/5 20:21
  */
 @EnumGenerator.GeneratorConfiguration(
-        enums = {},
-        valuesWhenNull = {},
-        outputDirectory = "",
-        author = "")
+        enums = {DeviceType.class},
+        valuesWhenNull = {
+                /*DeviceType.UNKNOWN*/0
+        },
+        outputDirectory = "seed-data/src/main/java/com/seed/data/dao/handler",
+        author = "<a href=\"mailto:shouheng2015@gmail.com\">Shouheng.W</a>")
 public final class EnumGenerator extends BaseGenerator {
 
     private static String outputDirectory;

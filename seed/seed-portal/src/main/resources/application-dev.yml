@@ -9,7 +9,7 @@ spring:
   # for Druid configuration.
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/beauty_dev?serverTimezone=GMT%2B8&allowMultiQueries=true
+    url: jdbc:mysql://localhost:3306/seed?serverTimezone=GMT%2B8&allowMultiQueries=true
     username: root
     password: qweasdzxc
     type: com.alibaba.druid.pool.DruidDataSource
@@ -76,3 +76,7 @@ com:
     admin:
       username: seed_admin
       password: xxxxx
+baidu:
+  api:
+    client-id: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    client-secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx

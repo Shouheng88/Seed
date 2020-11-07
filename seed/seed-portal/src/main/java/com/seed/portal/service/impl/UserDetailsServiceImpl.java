@@ -44,6 +44,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return new User(username, passwordEncoder.encode(adminPassword),
                 AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
-
     }
+
 }

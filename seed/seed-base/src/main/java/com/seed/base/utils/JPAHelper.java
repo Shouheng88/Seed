@@ -1,4 +1,4 @@
-package com.seed.data.utils;
+package com.seed.base.utils;
 
 import cn.hutool.core.util.StrUtil;
 import com.seed.base.annotation.ColumnInfo;

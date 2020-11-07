@@ -16,7 +16,10 @@ public enum ResultCode {
     METHOD_NOT_ALLOWED(405, "method not allowed"),
 
     ERROR_DAO_EXCEPTION(            20001, "failed to operate database"),
-    ERROR_REQUEST_PARAMETER(        20002, "parameter check failed");
+    ERROR_REQUEST_PARAMETER(        20002, "parameter check failed"),
+
+    THIRD_PART_REQUEST_TIMEOUT(     20040, "Third part API request timeout"),
+    THIRD_PART_REQUEST_ERROR(       20041, "Third part server error");
 
     public final long code;
 

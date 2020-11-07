@@ -89,36 +89,6 @@ public class PackVo<T> implements Serializable {
         return packVo;
     }
 
-    public static <T> BusinessResponse<T> toResponse(PackVo<T> packVo) {
-        if (packVo.isSuccess()) {
-            return BusinessResponse.success(packVo.getVo(), packVo.getUdf1(),
-                    packVo.getUdf2(), packVo.getUdf3(), packVo.getUdf4(), packVo.getUdf5());
-        } else {
-            return BusinessResponse.fail(packVo.getCode(), packVo.getMessage(), packVo.getUdf1(),
-                    packVo.getUdf2(), packVo.getUdf3(), packVo.getUdf4(), packVo.getUdf5());
-        }
-    }
-
-    public static <T> BusinessResponse<List<T>> toListResponse(PackVo<T> packVo) {
-        if (packVo.isSuccess()) {
-            return BusinessResponse.success(packVo.getVoList(), packVo.getUdf1(),
-                    packVo.getUdf2(), packVo.getUdf3(), packVo.getUdf4(), packVo.getUdf5());
-        } else {
-            return BusinessResponse.fail(packVo.getCode(), packVo.getMessage(), packVo.getUdf1(),
-                    packVo.getUdf2(), packVo.getUdf3(), packVo.getUdf4(), packVo.getUdf5());
-        }
-    }
-
-    public static BusinessResponse toRawResponse(PackVo packVo) {
-        if (packVo.isSuccess()) {
-            return BusinessResponse.success(packVo.getVo(), packVo.getUdf1(), packVo.getUdf2(),
-                    packVo.getUdf3(), packVo.getUdf4(), packVo.getUdf5());
-        } else {
-            return BusinessResponse.fail(packVo.getCode(), packVo.getMessage(), packVo.getUdf1(),
-                    packVo.getUdf2(), packVo.getUdf3(), packVo.getUdf4(), packVo.getUdf5());
-        }
-    }
-
     /*========================================== setters & getters ================================================*/
 
     public boolean isSuccess() {
@@ -201,6 +171,30 @@ public class PackVo<T> implements Serializable {
         this.udf5 = udf5;
     }
 
+    public BusinessResponse<T> toResponse() {
+        if (success) {
+            return BusinessResponse.success(vo, udf1, udf2, udf3, udf4, udf5);
+        } else {
+            return BusinessResponse.fail(code, message, udf1, udf2, udf3, udf4, udf5);
+        }
+    }
+
+    public BusinessResponse<List<T>> toListResponse() {
+        if (success) {
+            return BusinessResponse.success(voList, udf1, udf2, udf3, udf4, udf5);
+        } else {
+            return BusinessResponse.fail(code, message, udf1, udf2, udf3, udf4, udf5);
+        }
+    }
+
+    public BusinessResponse toRawResponse() {
+        if (success) {
+            return BusinessResponse.success(vo, udf1, udf2, udf3, udf4, udf5);
+        } else {
+            return BusinessResponse.fail(code, message, udf1, udf2, udf3, udf4, udf5);
+        }
+    }
+    
     @Override
     public String toString() {
         return "PackVo{" +

@@ -15,7 +15,7 @@
     <artifactId>seed</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>demo</name>
+    <name>SpringBooster</name>
     <url>https://github.com/Shouheng88/Booster</url>
     <description>Demo project for Spring Boot</description>
 

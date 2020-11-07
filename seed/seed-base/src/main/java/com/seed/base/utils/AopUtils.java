@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * AOP utils.
+ *
  * @author <a href="mailto:shouheng2015@gmail.com">Shouheng.W</a>
  * @version 1.0
  * @date 2020/11/5 15:02

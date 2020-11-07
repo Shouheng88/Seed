@@ -2,7 +2,9 @@ package com.seed.data;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.seed.base.BaseGenerator;
-import com.seed.data.utils.JPAHelper;
+import com.seed.data.model.po.AppConfig;
+import com.seed.data.model.po.AppConfigDetail;
+import com.seed.base.utils.JPAHelper;
 
 import javax.persistence.Table;
 import java.io.BufferedWriter;
@@ -18,31 +20,30 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
+ * Generator for everything, service and its implementation, SQL, Mapper, VO, SO, DAO and test.
+ *
  * @author <a href="mailto:shouheng2015@gmail.com">Shouheng.W</a>
  * @version 1.0
  * @date 2020/11/5 21:23
  */
 @CodeGenerator.GeneratorConfiguration(
-        models = {
-
-        },
-        useSpecifyDirs = false,
-        fileTypesToGenerate = {
-                CodeGenerator.TypeToGenerate.SQL
-        },
+        models = {AppConfig.class, AppConfigDetail.class},
+        useSpecifyDirs = true,
+        fileTypesToGenerate = {CodeGenerator.TypeToGenerate.ALL},
         coverExistFiles = true,
         outputDirectory = "F:/DDLFiles",
-        sqlOutputDirectory = "beauty-data/src/main/resources/schema",
+        /* SQL output directory */
+        sqlOutputDirectory = "seed-data/src/main/resources/schema",
         primaryKeyAutoIncrement = 66,
-        mapperOutputDirectory = "beauty-data/src/main/resources/mybatis/mapper",
-        voOutputDirectory = "beauty-data/src/main/java/me/shouheng/data/model/vo",
-        soOutputDirectory = "beauty-data/src/main/java/me/shouheng/data/model/so",
-        daoOutputDirectory = "beauty-data/src/main/java/me/shouheng/data/dao",
-        daoPackage = "me.shouheng.data.dao",
-        serviceOutputDirectory = "beauty-portal/src/main/java/me/shouheng/beauty/service",
-        serviceImplOutputDirectory = "beauty-portal/src/main/java/me/shouheng/beauty/service/impl",
-        serviceTestOutputDirectory = "beauty-portal/src/test/java/me/shouheng/beauty",
-        author = "<a href=\"mailto:shouheng2015@gmail.com\">WngShhng</a>"
+        mapperOutputDirectory = "seed-data/src/main/resources/mybatis/mapper",
+        voOutputDirectory = "seed-data/src/main/java/com/seed/data/model/vo",
+        soOutputDirectory = "seed-data/src/main/java/com/seed/data/model/so",
+        daoOutputDirectory = "seed-data/src/main/java/com/seed/data/dao",
+        daoPackage = "com.seed.data.dao",
+        serviceOutputDirectory = "seed-portal/src/main/java/com/seed/portal/service",
+        serviceImplOutputDirectory = "seed-portal/src/main/java/com/seed/portal/service/impl",
+        serviceTestOutputDirectory = "seed-portal/src/test/java/com/seed/portal",
+        author = "<a href=\"mailto:shouheng2015@gmail.com\">Shouheng.W</a>"
 )
 public final class CodeGenerator extends BaseGenerator {
     private static final String DIR_SPLIT = System.getProperty("file.separator");

@@ -76,3 +76,7 @@ com:
     admin:
       username: seed_admin
       password: xxxxx
+baidu:
+  api:
+    client-id: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    client-secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx

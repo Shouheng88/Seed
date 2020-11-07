@@ -11,7 +11,7 @@ import com.seed.base.model.business.BusinessRequest;
 public interface CheckService {
 
     /**
-     * Check certificate available from request.
+     * Check certificate available from request, for example, check the token and key.
      *
      * @param request request
      * @return       the result

@@ -55,11 +55,13 @@ public final class SeedSecurity {
         SESSIONS.remove();
     }
 
+    /** Save get user id */
     public Long getUserId() {
         if (SESSIONS.get() == null || SESSIONS.get().businessRequest == null) return null;
         return SESSIONS.get().businessRequest.getUserId();
     }
 
+    /** Save get request id */
     public String getRequestId() {
         if (SESSIONS.get() == null || SESSIONS.get().businessRequest == null) return null;
         return SESSIONS.get().businessRequest.getRequestId();

@@ -15,6 +15,8 @@ import java.util.LinkedList;
 import java.util.stream.Stream;
 
 /**
+ * Request utils.
+ *
  * @author <a href="mailto:shouheng2015@gmail.com">Shouheng.W</a>
  * @version 1.0
  * @date 2020/11/5 18:15
@@ -113,6 +115,13 @@ public final class RequestUtils {
         return null;
     }
 
+    /**
+     * Get required parameters from method of controller which was
+     * decorate by annotation {@link ApiImplicitParams}.
+     *
+     * @param method the method of controller
+     * @return       the parameters required
+     */
     public static Params getRequiredParams(Method method) {
         Params params = new Params();
         if (method.isAnnotationPresent(ApiImplicitParams.class)) {
