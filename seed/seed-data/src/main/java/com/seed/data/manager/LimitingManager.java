@@ -70,7 +70,7 @@ public class LimitingManager {
     /** Is given ip in white list */
     private boolean isIpInWhiteList(String ip) {
         /* Ip white list, no limiting */
-        String keyIpWhiteList = "BEAUTY:LIMITING:IP:WHITE";
+        String keyIpWhiteList = "SEED:LIMITING:IP:WHITE";
         List<String> list = redisTemplate.opsForList().range(keyIpWhiteList, 0, -1);
         if (list != null && !list.isEmpty())
             return list.stream().anyMatch(white -> StrUtil.equals(ip, white, true));

@@ -34,7 +34,6 @@ import java.util.stream.Stream;
  * Restful api aspect configuration.
  *
  * For exception handler, see also,
- *
  * @see ExceptionConfig
  * @see com.seed.portal.controller.ExceptionHandler
  *

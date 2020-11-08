@@ -8,3 +8,5 @@ spring:
     serialization:
       write-dates-as-timestamps: true
     default-property-inclusion: non_null
+  messages:
+    basename: i18n.language

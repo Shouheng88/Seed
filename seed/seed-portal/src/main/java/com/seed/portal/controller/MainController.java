@@ -36,4 +36,9 @@ public class MainController {
         return "login-fail";
     }
 
+    @GetMapping(value = {"/code"})
+    public String code() {
+        return "verifycode";
+    }
+
 }
