@@ -20,13 +20,14 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.async.WebAsyncTask;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -45,10 +46,9 @@ import java.util.stream.Stream;
 @Component
 public class RestfulApiAspect {
 
-    @Autowired
+    @Resource
     private SeedSecurity security;
-
-    @Autowired
+    @Resource
     private CheckService checkService;
 
     /** Only handle restful api */
@@ -73,22 +73,19 @@ public class RestfulApiAspect {
         logger.info("[Request][{}][{}][{}]", security.getRequest().method, security.getRequest().url, bodyJson);
 
         // Check authentication.
-        if (!checkCertificateAvailable(point, method)) {
-            if (method.getReturnType() == WebAsyncTask.class) {
-                result = new WebAsyncTask<>(() -> BusinessResponse.fail(ResultCode.UNAUTHORIZED));
-            } else {
-                result = BusinessResponse.fail(ResultCode.UNAUTHORIZED);
-            }
-            logger.error("[#{}][Error][{}ms][UNAUTHORIZED][{}]", signature.getName(),
-                    System.currentTimeMillis()-timeBegin, result);
+        PackVo packVo = checkCertificateAvailable(point, method);
+        if (!packVo.isSuccess()) {
+            result = packVo.toResponse();
+            if (method.getReturnType() == WebAsyncTask.class) result = new WebAsyncTask<>((Callable<BusinessResponse>) packVo::toResponse);
+            logger.error("[#{}][Error][{}ms][UNAUTHORIZED][{}]", signature.getName(), timeCost(timeBegin), result);
             return result;
         }
 
         // Check request parameters.
         BusinessResponse response = checkParameters(method, point.getArgs(), logger);
         if (response != null) {
-            logger.error("[#{}][Error][{}ms][PARAMETER][{}][{}][{}]", signature.getName(),
-                    System.currentTimeMillis()-timeBegin, security.getUserId(), security.getRequestId(), response);
+            logger.error("[#{}][Error][{}ms][PARAMETER][{}][{}][{}]", signature.getName(), timeCost(timeBegin),
+                    security.getUserId(), security.getRequestId(), response);
             return response;
         }
 
@@ -98,12 +95,12 @@ public class RestfulApiAspect {
         try {
             result = point.proceed();
         } catch (Throwable ex) {
-            logger.error("[#{}][Error][{}ms][{}][{}]Due:", signature.getName(),
-                    System.currentTimeMillis()-timeBegin, security.getUserId(), security.getRequestId(), ex);
-            result = AopUtils.handleException(ex);
+            logger.error("[#{}][Error][{}ms][{}][{}]Due:", signature.getName(), timeCost(timeBegin),
+                    security.getUserId(), security.getRequestId(), ex);
+            result = AopUtils.handleException(ex).toResponse();
         } finally {
-            logger.info("[#{}][End][{}ms][{}][{}][{}]", signature.getName(),
-                    System.currentTimeMillis()-timeBegin, security.getUserId(), security.getRequestId(), result);
+            logger.info("[#{}][End][{}ms][{}][{}][{}]", signature.getName(), timeCost(timeBegin),
+                    security.getUserId(), security.getRequestId(), result);
             security.removeSession();
         }
 
@@ -121,26 +118,30 @@ public class RestfulApiAspect {
         return jsonMapper;
     }
 
-    private boolean checkCertificateAvailable(ProceedingJoinPoint point, Method method) {
+    private PackVo checkCertificateAvailable(ProceedingJoinPoint point, Method method) {
+        // Check if given request is legal
+        boolean requestIllegal = Stream.of(point.getArgs()).anyMatch(arg ->
+                (arg instanceof BusinessRequest) && !checkService.checkRequest((BusinessRequest) arg).isSuccess());
+        if (requestIllegal) return PackVo.fail(ResultCode.BAD_REQUEST);
+        // Check request authentication
         boolean needAuth = !method.isAnnotationPresent(ApiInfo.class) || method.getAnnotation(ApiInfo.class).auth();
         if (needAuth) {
-            return Stream.of(point.getArgs()).anyMatch(arg -> {
+            boolean authFailed = Stream.of(point.getArgs()).anyMatch(arg -> {
                 if (arg instanceof BusinessRequest) {
-                    // Check certificate and save request information.
-                    PackVo<Boolean> packVo = checkService.checkCertificate((BusinessRequest) arg);
-                    boolean valid = packVo.isSuccess() && packVo.getVo();
-                    if (valid) security.saveSession((BusinessRequest) arg);
-                    return valid;
+                    PackVo packVo = checkService.checkCertificate((BusinessRequest) arg);
+                    if (packVo.isSuccess()) security.saveSession((BusinessRequest) arg);
+                    return !packVo.isSuccess();
                 }
                 return false;
             });
+            if (authFailed) return PackVo.fail(ResultCode.UNAUTHORIZED);
         } else {
             Stream.of(point.getArgs()).forEach(arg -> {
                 // Save the business request anyway.
                 if (arg instanceof BusinessRequest) security.saveSession((BusinessRequest) arg);
             });
-            return true;
         }
+        return PackVo.success();
     }
 
     private BusinessResponse checkParameters(Method method, Object[] args, Logger logger) {
@@ -264,6 +265,10 @@ public class RestfulApiAspect {
         page.setPageSize(page.getPageSize() == null ? paging.defaultPageSize()
                 : Math.min(paging.maxPageSize(), page.getPageSize()));
         page.setPage(page.getPage() == null ? paging.defaultPageIndex() : page.getPage());
+    }
+
+    private static long timeCost(long beginTime) {
+        return System.currentTimeMillis() - beginTime;
     }
 
 }

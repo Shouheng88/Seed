@@ -11,11 +11,19 @@ import com.seed.base.model.business.BusinessRequest;
 public interface CheckService {
 
     /**
+     * Check if given request is legal.
+     *
+     * @param request request
+     * @return       is the request legal
+     */
+    PackVo checkRequest(BusinessRequest request);
+
+    /**
      * Check certificate available from request, for example, check the token and key.
      *
      * @param request request
      * @return       the result
      */
-    PackVo<Boolean> checkCertificate(BusinessRequest request);
+    PackVo checkCertificate(BusinessRequest request);
 
 }

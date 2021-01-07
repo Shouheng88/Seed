@@ -18,8 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class CheckServiceImpl implements CheckService {
 
     @Override
-    public PackVo<Boolean> checkCertificate(BusinessRequest request) {
-        return PackVo.success(true);
+    public PackVo checkRequest(BusinessRequest request) {
+        return new PackVo().setSuccess(true);
     }
 
+    @Override
+    public PackVo checkCertificate(BusinessRequest request) {
+        return new PackVo().setSuccess(true);
+    }
 }
