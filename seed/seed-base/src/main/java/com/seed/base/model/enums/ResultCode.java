@@ -8,12 +8,12 @@ package com.seed.base.model.enums;
  * @date 2020/11/5 11:29
  */
 public enum ResultCode {
-    SUCCESS(           200, "succeed"),
-    FAILED(            500, "failed"),
-    BAD_REQUEST(       400, "bad request"),
-    UNAUTHORIZED(      401, "not login or session expired"),
-    FORBIDDEN(         403, "forbidden"),
-    METHOD_NOT_ALLOWED(405, "method not allowed"),
+    SUCCESS(                        200, "succeed"),
+    FAILED(                         500, "failed"),
+    BAD_REQUEST(                    400, "bad request"),
+    UNAUTHORIZED(                   401, "not login or session expired"),
+    FORBIDDEN(                      403, "forbidden"),
+    METHOD_NOT_ALLOWED(             405, "method not allowed"),
 
     FAILED_TO_SEND_EMAIL(           10003, "failed to send email"),
 

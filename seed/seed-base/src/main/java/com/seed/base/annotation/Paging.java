@@ -11,7 +11,7 @@ import java.lang.annotation.*;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(value = {ElementType.FIELD})
+@Target(value = {ElementType.METHOD})
 public @interface Paging {
 
     /** Is page enabled */

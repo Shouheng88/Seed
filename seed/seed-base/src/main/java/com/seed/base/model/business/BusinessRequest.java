@@ -25,6 +25,9 @@ public class BusinessRequest<T> implements Serializable {
     /** Encrypt request key. */
     private String key;
 
+    /** The App id */
+    private Long appId;
+
     /** The client information. */
     private ClientInfo clientInfo;
 
@@ -63,6 +66,14 @@ public class BusinessRequest<T> implements Serializable {
         this.key = key;
     }
 
+    public Long getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Long appId) {
+        this.appId = appId;
+    }
+
     public ClientInfo getClientInfo() {
         return clientInfo;
     }
@@ -86,6 +97,7 @@ public class BusinessRequest<T> implements Serializable {
                 ", userId=" + userId +
                 ", token='" + token + '\'' +
                 ", key='" + key + '\'' +
+                ", appId=" + appId +
                 ", clientInfo=" + clientInfo +
                 ", apiParams=" + apiParams +
                 '}';

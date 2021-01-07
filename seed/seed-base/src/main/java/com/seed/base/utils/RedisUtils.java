@@ -73,6 +73,10 @@ public final class RedisUtils {
         return b != null && b;
     }
 
+    public static void setBit(StringRedisTemplate redisTemplate, String key, long offset, boolean value) {
+        redisTemplate.opsForValue().setBit(key, offset, value);
+    }
+
     public static boolean delete(StringRedisTemplate redisTemplate, String key) {
         Boolean b = redisTemplate.delete(key);
         return b != null && b;

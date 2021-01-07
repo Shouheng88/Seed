@@ -1,6 +1,7 @@
 package com.seed.base.utils;
 
 import com.seed.base.model.business.BusinessRequest;
+import com.seed.base.model.business.ClientInfo;
 
 /**
  * This class was used to save and retrieve request information.
@@ -65,6 +66,24 @@ public final class SeedSecurity {
     public String getRequestId() {
         if (SESSIONS.get() == null || SESSIONS.get().businessRequest == null) return null;
         return SESSIONS.get().businessRequest.getRequestId();
+    }
+
+    /** Get the client info */
+    public ClientInfo getClientInfo() {
+        if (SESSIONS.get() == null || SESSIONS.get().businessRequest == null) return null;
+        return SESSIONS.get().businessRequest.getClientInfo();
+    }
+
+    /** Get app language included in {@link ClientInfo}. */
+    public String getLanguage() {
+        ClientInfo clientInfo = getClientInfo();
+        return clientInfo == null ? null : clientInfo.getLanguage();
+    }
+
+    /** Get Ppp id */
+    public Long getAppId() {
+        if (SESSIONS.get() == null || SESSIONS.get().businessRequest == null) return null;
+        return SESSIONS.get().businessRequest.getAppId();
     }
 
     public static class CachedSession {

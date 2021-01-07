@@ -84,7 +84,7 @@ public class PackVo<T> implements Serializable {
     public static <E> PackVo<E> fail(ResultCode resultCode) {
         PackVo<E> packVo = new PackVo<>();
         packVo.setSuccess(false);
-        packVo.setCode(resultCode.name());
+        packVo.setCode(String.valueOf(resultCode.code));
         packVo.setMessage(resultCode.message);
         return packVo;
     }
@@ -95,80 +95,96 @@ public class PackVo<T> implements Serializable {
         return success;
     }
 
-    public void setSuccess(boolean success) {
+    public PackVo<T> setSuccess(boolean success) {
         this.success = success;
+        return this;
     }
 
     public T getVo() {
         return vo;
     }
 
-    public void setVo(T vo) {
+    public PackVo<T> setVo(T vo) {
         this.vo = vo;
+        return this;
     }
 
     public List<T> getVoList() {
         return voList;
     }
 
-    public void setVoList(List<T> voList) {
+    public PackVo<T> setVoList(List<T> voList) {
         this.voList = voList;
+        return this;
+    }
+
+    public PackVo<T> setResultCode(ResultCode resultCode) {
+        this.code = String.valueOf(resultCode.code);
+        this.message = resultCode.message;
+        return this;
     }
 
     public String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public PackVo<T> setCode(String code) {
         this.code = code;
+        return this;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public PackVo<T> setMessage(String message) {
         this.message = message;
+        return this;
     }
 
     public Long getUdf1() {
         return udf1;
     }
 
-    public void setUdf1(Long udf1) {
+    public PackVo<T> setUdf1(Long udf1) {
         this.udf1 = udf1;
+        return this;
     }
 
     public Double getUdf2() {
         return udf2;
     }
 
-    public void setUdf2(Double udf2) {
+    public PackVo<T> setUdf2(Double udf2) {
         this.udf2 = udf2;
+        return this;
     }
 
     public Boolean getUdf3() {
         return udf3;
     }
 
-    public void setUdf3(Boolean udf3) {
+    public PackVo<T> setUdf3(Boolean udf3) {
         this.udf3 = udf3;
+        return this;
     }
 
     public String getUdf4() {
         return udf4;
     }
 
-    public void setUdf4(String udf4) {
+    public PackVo<T> setUdf4(String udf4) {
         this.udf4 = udf4;
+        return this;
     }
 
     public Object getUdf5() {
         return udf5;
     }
 
-    public void setUdf5(Object udf5) {
+    public PackVo<T> setUdf5(Object udf5) {
         this.udf5 = udf5;
+        return this;
     }
 
     public BusinessResponse<T> toResponse() {

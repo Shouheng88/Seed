@@ -43,12 +43,12 @@ public class Sort implements Serializable {
         this.sortKey = sortKey;
     }
 
-    public SortDir getSortDir() {
-        return SortDir.get(sortDir);
+    public String getSortDir() {
+        return sortDir;
     }
 
-    public void setSortDir(SortDir sortDir) {
-        this.sortDir = sortDir.value;
+    public void setSortDir(String sortDir) {
+        this.sortDir = sortDir;
     }
 
     @Override

@@ -60,4 +60,8 @@ public final class UserUtils {
             return phoneOrEmail.substring(0, 3) + "****" + phoneOrEmail.substring(len-4, len);
         }
     }
+
+    private UserUtils() {
+        throw new UnsupportedOperationException("u can't initialize me!");
+    }
 }
