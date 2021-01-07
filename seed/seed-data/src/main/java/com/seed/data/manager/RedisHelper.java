@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisHelper {
 
     /** Baidu API token redis key, the key should be separated by ":" */
-    private String keyBaiduApiToken = "BEAUTY:BAIDU:AI:TOKEN";
+    private String keyBaiduApiToken = "SEED:BAIDU:AI:TOKEN";
 
     private StringRedisTemplate redisTemplate;
 
