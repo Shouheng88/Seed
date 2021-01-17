@@ -8,6 +8,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 /**
  * AppConfigSo
  *

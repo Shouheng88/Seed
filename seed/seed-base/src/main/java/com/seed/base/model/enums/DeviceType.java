@@ -9,7 +9,7 @@ import org.springframework.lang.Nullable;
  * @version 1.0
  * @date 2020/11/5 11:24
  */
-public enum DeviceType {
+public enum DeviceType implements IEnum{
     /** Default unknown device type */
     UNKNOWN(    0),
     /** Android */
@@ -25,6 +25,11 @@ public enum DeviceType {
 
     DeviceType(int id) {
         this.id = id;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
     }
 
     @Nullable

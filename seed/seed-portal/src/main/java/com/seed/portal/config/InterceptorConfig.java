@@ -3,6 +3,7 @@ package com.seed.portal.config;
 import cn.hutool.core.util.StrUtil;
 import com.seed.base.annotation.ApiInfo;
 import com.seed.base.annotation.Limiting;
+import com.seed.base.boot.Int2EnumFactory;
 import com.seed.base.model.enums.ResultCode;
 import com.seed.base.utils.RequestUtils;
 import com.seed.data.manager.LimitingManager;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,6 +47,11 @@ public class InterceptorConfig implements WebMvcConfigurer {
             registry.addInterceptor(new ApiInterceptor(limitingManager)).addPathPatterns("/**");
             registry.addInterceptor(new RestApiInterceptor(limitingManager)).addPathPatterns("/rest/**");
         }
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverterFactory(new Int2EnumFactory());
     }
 
     private static class ApiInterceptor implements HandlerInterceptor {
